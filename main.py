@@ -3,9 +3,10 @@
 
 '''board initialization and event loop for'''
 
-import uasyncio
+import asyncio
 from guiHandler import *
 from fileHandler import initTxnDir, cleanP2tstDir
+from messageHandler import *
 
 TESTING = True
 
@@ -18,7 +19,7 @@ async def loop():
                 pyb.LED(3).toggle()
                 print('error handling. something wrong with reading')
 
-        await uasyncio.sleep_ms(100)
+        await asyncio.sleep_ms(100)
 
 def main():
     #init ializing transactions dir if it does not already exist
@@ -31,7 +32,7 @@ def main():
     #initializes gui object and the 'main menu'
     gui = GUI()
     gui.screenMainMenu()
-    uasyncio.run(loop())
+    asyncio.run(loop())
 
 if __name__ == '__main__':
     main()

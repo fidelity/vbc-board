@@ -5,12 +5,8 @@
 
 from gc import collect
 from hashlib import sha256
-from os import urandom
-from random import choice
-from pyb import ADC
 from bitcoin import ec
-
-ADC_ops = ["A0", "A1", "A2", "A3", "A4", "A5", "A6"]
+from rng import get_random_bytes
 
 class DeletedKey:
 	'''
@@ -26,14 +22,12 @@ class DeletedKey:
 		'''
 
 		#creating entropy for private key
-		entropy = urandom(32) + b'lsoeitgmmcnxgwt364495p5,5m5b4g3y344k3jhuri99'
-		ADC_entropy = bytes([ADC(choice(ADC_ops)).read() % 256 for i in range(2048)])
-		self.key = ec.PrivateKey.parse(sha256(entropy + ADC_entropy).digest())
+		entropy = get_random_bytes(32) + b'lsoeitgmmcnxgwt364495p5,5m5b4g3y344k3jhuri99'
+		self.key = ec.PrivateKey.parse(sha256(entropy).digest())
 
 		#garbage collection to ensure the secrets are not in memory
 		#FIXME: transition the private key to a bytearray for direct memory access
 		del entropy
-		del ADC_entropy
 		collect()
 
 	def delete(self):

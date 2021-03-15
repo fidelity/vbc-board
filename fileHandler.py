@@ -3,7 +3,8 @@
 
 '''utilities for persisting transactions to onboard flash'''
 
-from os import listdir, mkdir, remove
+from os import ilistdir, remove
+from platform import maybe_mkdir, fpath
 
 P2TST_PATH = '/flash/transactions/'
 
@@ -19,7 +20,7 @@ def read(path, mode='r'):
 	return data
 
 
-def write(path, data, mode='w'):
+def write(path, data, mode='a'):
 	'''
 	writes to file on flash returns number of bytes written
 	'''
@@ -36,8 +37,9 @@ def initTxnDir():
 	'''
 	DIRECTORY_NAME = 'transactions'
 
-	if DIRECTORY_NAME not in listdir('/flash'):
-		mkdir('/flash/'+DIRECTORY_NAME)
+	dir_entries = [value[0] for value in ilistdir('/flash')]
+	if DIRECTORY_NAME not in dir_entries:
+		maybe_mkdir(fpath('/flash/'+DIRECTORY_NAME))
 		return 1
 
 	return 0
@@ -46,12 +48,13 @@ def deleteTransaction(txid):
 	'''
 	delete a given transaction on the board
 	'''
-	remove(P2TST_PATH+txid)
+	remove(fpath(P2TST_PATH+txid))
 
 def cleanP2tstDir():
 	'''
 	FIXME: used ONLY for testing purposes
 	running this in production will delete funds...
 	'''
-	for fi in listdir(P2TST_PATH[:-1]):
-		remove(P2TST_PATH+fi)
+	dir_entries = [value[0] for value in ilistdir(P2TST_PATH[:-1])]
+	for fi in dir_entries:
+		remove(fpath(P2TST_PATH+fi))

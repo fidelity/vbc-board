@@ -22,6 +22,11 @@ It is advised to watch the first three videos of this video series provided by c
 
 The board should be connected via both the STLink and MicroUSB plugs. The [MicroPython bundle](https://github.com/diybitcoinhardware/f469-disco/releases/tag/v1.1.2) should be loaded by copying it the drive DIS_F469NI, as shown in the diyhardware video #2. The drive PYBQSPI may appear automatically. If not, unmount and remount the board.
 
+## Simulator setup
+
+The specter-diy simulator can be used in place of the F469-DISCO board. Follow the [development](https://github.com/cryptoadvance/specter-diy/blob/v1.4.5/docs/development.md) and [simulator](https://github.com/cryptoadvance/specter-diy/blob/v1.4.5/docs/simulator.md) instructions to set up the simulator.
+Once the specter-diy repo is set up, copy the Python files in this repo to the `src` directory of the specter-diy repo and run `make simulate` from the specter-diy repo to start the simulator.
+
 # Run the code
 
 Once you've done the preparation, simply clone this repository and drag all the files into the PYBQSPI volume that appears on your machine.

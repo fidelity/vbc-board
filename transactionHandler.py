@@ -4,6 +4,7 @@
 '''core logic for TX handling, vaulting and unvaulting'''
 
 from hashlib import sha256
+from platform import fpath
 from bitcoin import script
 from bitcoin import ec
 from bitcoin.networks import NETWORKS
@@ -82,7 +83,7 @@ def finalizeVaultResponse(msg):
 
         #saving P2TST to storage on board
         PATH = '/flash/transactions/' + str(txid)
-        write(PATH, hexlify(unvault_tx.serialize()))
+        write(fpath(PATH), hexlify(unvault_tx.serialize()))
         response_list.append(txid)
         response_list.append(str(getAmount(unvault_tx)/1e8))
 
@@ -95,7 +96,7 @@ def unvaultResponse(msg):
 
     res = []
     for txid in msg:
-        res.append(read('/flash/transactions/' + str(txid)))
+        res.append(read(fpath('/flash/transactions/' + str(txid))))
 
     return res
 

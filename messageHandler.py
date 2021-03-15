@@ -45,18 +45,21 @@ def isUSBReadyToRead():
 
 def read_data():
 	buffer = b''
-	buffer += usb.recv(BUFFER_LEN, timeout=1000)
+	time.sleep_ms(1000)
+	double_buffer = usb.read(BUFFER_LEN)
+	if double_buffer is not None:
+		buffer += double_buffer
 	time.sleep_ms(50)
 
 	#checking if the first character of the message is an integer(message ID) and that the second character is an underscore
 	#if not, it is an unrecongzed message and should be ignored
-	if (isinstance(buffer[0]) != int) or (buffer[1] != 95):
+	if (not isinstance(buffer[0], int)) or (buffer[1] != 95):
 		return 0
 
 	unpack_data(buffer)
 
 def send_data(buffer):
-	usb.send(buffer)
+	usb.write(buffer)
 
 def unpack_data(buffer):
 
