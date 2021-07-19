@@ -4,13 +4,14 @@ This code is not production ready. DO NOT USE WITH MAINNET. DO NOT USE REAL FUND
 
 # vbc-board
 
-vbc-board is the code for the development board that is used in conjunction with vbc-desktop[HYPERLINK]
+vbc-board is the code for the development board that is used in conjunction with [vbc-desktop](https://github.com/fidelity/vbc-desktop)
 
-# Tools and Preparation
+## Tools and Preparation
 
 You will need the [STM32F469NI MCU](https://www.st.com/en/evaluation-tools/32f469idiscovery.html) and will also need to grasp a basic understanding of [micropython](https://micropython.org/).
 
-[IMAGE]
+<img width="322" alt="Screen Shot 2021-04-19 at 1 11 38 PM" src="https://user-images.githubusercontent.com/64624962/115276443-04160500-a111-11eb-8bdd-f2e69bd478b9.png">
+
 
 It is advised to watch the first three videos of this video series provided by cryptoadvance to learn how to use micropython with this board, as well how to boot firmware on this device.
 
@@ -24,14 +25,28 @@ The board should be connected via both the STLink and MicroUSB plugs. The [Micro
 
 ## Simulator setup
 
-The specter-diy simulator can be used in place of the F469-DISCO board. Follow the [development](https://github.com/cryptoadvance/specter-diy/blob/v1.4.5/docs/development.md) and [simulator](https://github.com/cryptoadvance/specter-diy/blob/v1.4.5/docs/simulator.md) instructions to set up the simulator.
-Once the specter-diy repo is set up, copy the Python files in this repo to the `src` directory of the specter-diy repo and run `make simulate` from the specter-diy repo to start the simulator.
+A snapshot of specter-diy, version 1.4.5, is included in this repo.
 
-# Run the code
+Installed the SDL2 dependency with `apt install libsdl2-dev` or `brew install sdl2`.
 
-Once you've done the preparation, simply clone this repository and drag all the files into the PYBQSPI volume that appears on your machine.
-You will see two volumes, DIS_F469NI and PYBQSPI, the volume that handles the files from this repository is PYBQSPI.
+Unzip the snapshot:
 
-# Run with vbc-desktop
+`./unzip_board.sh` or `unzip -q -o ./specter_diy_snapshot`
+
+Copy the VBC code to the simulator:
+
+`./copy_to_board.sh` or `cp -f ./*.py specter_diy_snapshot/src/`
+
+## Run the code
+
+`./run_simulator.sh` or `cd specter_diy_snapshot || exit; make unix; make simulate`
+
+`Add shiny new features to VBC..`
+
+`./update_and_run.sh` or:
+
+`cp -f ./*.py specter_diy_snapshot/src/; cd specter_diy_snapshot || exit; make unix; make simulate`
+
+## Run with vbc-desktop
 
 Now that your development board is prepared, go to vbc-desktop to learn how to run the vbc program!
